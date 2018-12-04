@@ -7,7 +7,42 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+# 2) Shifts in female PhD recipients by field (1985, 2000, and 2015). Describe if and how there was a shift in PhDs awarded to females in four fields (Physical and Earth Sciences, Engineering, Education, and Humanities & Arts) in 1985, 2000, and 2015. Describe your results statistically, in a graph or table, and in text. Note: There are several ways that you can interpret this question. You are invited to decide which you think is/are most interesting. Just be really clear about what you are asking/answering in your report.
 ```
 
-2) Shifts in female PhD recipients by field (1985, 2000, and 2015). Describe if and how there was
-a shift in PhDs awarded to females in four fields (Physical and Earth Sciences, Engineering, Education, and Humanities & Arts) in 1985, 2000, and 2015. Describe your results statistically, in a graph or table, and in text. Note: There are several ways that you can interpret this question. You are invited to decide which you think is/are most interesting. Just be really clear about what you are asking/answering in your report.
+```{r}
+
+# load necessary packages
+library(tidyverse)
+
+# load data
+femalePhD <- read_csv("PhDs_Field.csv")
+
+# make a contingency table (is this the right way???)
+Sciences <- c(569, 1022, 1988)
+Engineering <- c(198, 838, 2301)
+Education <- c(3491, 4179, 3502)
+Humanities <- c(1392, 2672, 2832)
+
+field_female <-rbind(Sciences, Engineering, Education, Humanities)
+colnames(field_female) <- c("1985", "2000", "2015")
+field_female
+
+
+# make a contingency table for 1985 (???)
+field_female_ <- femalePhD %>% 
+  select(Year, FemaleNumber, Field) %>% 
+  spread(Year, FemaleNumber)
+
+rownames(field_female_) = field_female_$Field
+
+field_female_table <- field_female_ %>% 
+  select("1985", "2000", "2015")
+field_female_table
+
+x2_test <- chisq.test(field_female_table)
+x2_test
+
+```
+
