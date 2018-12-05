@@ -44,5 +44,8 @@ field_female_table
 x2_test <- chisq.test(field_female_table)
 x2_test
 
+field_female_prop <- round(prop.table(as.matrix(field_female_table), 1), 2)
+field_female_prop
+
 ```
 
